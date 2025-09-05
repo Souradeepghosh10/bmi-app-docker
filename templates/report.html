@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-3">Full Report</h3>
+
+{% if has_data %}
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100"><div class="card-body">
+      <div class="text-muted">Total Entries</div>
+      <div class="display-6">{{ overall.count }}</div>
+    </div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100"><div class="card-body">
+      <div class="text-muted">Average BMI</div>
+      <div class="display-6">{{ '%.2f'|format(overall.avg_bmi) }}</div>
+    </div></div>
+  </div>
+  <div class="col-md-4">
+    <a class="btn btn-outline-dark w-100 h-100 d-flex align-items-center justify-content-center" href="{{ url_for('export_csv') }}">Export CSV</a>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100"><div class="card-body">
+      <h5 class="card-title">Average BMI by Sex</h5>
+      <canvas id="bySex" height="120"></canvas>
+    </div></div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100"><div class="card-body">
+      <h5 class="card-title">Average BMI by Age Band</h5>
+      <canvas id="byBand" height="120"></canvas>
+    </div></div>
+  </div>
+  <div class="col-md-12">
+    <div class="card shadow-sm h-100"><div class="card-body">
+      <h5 class="card-title">Category Distribution</h5>
+      <canvas id="byCat" height="120"></canvas>
+    </div></div>
+  </div>
+</div>
+
+<script>
+new Chart(document.getElementById('bySex'), {
+  type: 'bar',
+  data: { labels: {{ chart_sex_labels|tojson }}, datasets: [{ label: 'BMI', data: {{ chart_sex_values|tojson }} }] }
+});
+new Chart(document.getElementById('byBand'), {
+  type: 'bar',
+  data: { labels: {{ chart_band_labels|tojson }}, datasets: [{ label: 'BMI', data: {{ chart_band_values|tojson }} }] }
+});
+new Chart(document.getElementById('byCat'), {
+  type: 'pie',
+  data: { labels: {{ chart_cat_labels|tojson }}, datasets: [{ data: {{ chart_cat_values|tojson }} }] }
+});
+</script>
+{% else %}
+<div class="alert alert-info">No data yet. Add a few entries first.</div>
+{% endif %}
+{% endblock %}

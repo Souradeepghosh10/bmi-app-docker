@@ -1,0 +1,12 @@
+services:
+  bmi:
+    image: bmi-app:latest
+    build: .
+    container_name: bmi-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./instance:/app/instance
+    env_file:
+      - .env
+    restart: unless-stopped

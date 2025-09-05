@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-3">Welcome</h3>
+<p class="text-muted mb-4">Add entries, then open the Report for charts & insights.</p>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">Recent Entries ({{ total }} total)</h5>
+    <div class="table-responsive">
+      <table class="table table-sm align-middle">
+        <thead><tr><th>Time</th><th>Name</th><th>Sex</th><th>Age</th><th>Height (cm)</th><th>Weight (kg)</th><th>BMI</th><th>Category</th></tr></thead>
+        <tbody>
+          {% for p in people %}
+          <tr>
+            <td>{{ p.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.sex }}</td>
+            <td>{{ '%.1f'|format(p.age) }}</td>
+            <td>{{ '%.1f'|format(p.height_cm) }}</td>
+            <td>{{ '%.1f'|format(p.weight_kg) }}</td>
+            <td>{{ '%.2f'|format(p.bmi) }}</td>
+            <td>{{ p.category }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="8" class="text-muted">No entries yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

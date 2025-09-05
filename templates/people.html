@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-center mb-3">
+  <h3 class="me-auto mb-0">People</h3>
+  <form method="get" class="d-flex">
+    <input class="form-control" name="q" placeholder="Search name" value="{{ q }}">
+    <button class="btn btn-outline-dark ms-2">Search</button>
+  </form>
+</div>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-sm align-middle">
+        <thead><tr><th>Time</th><th>Name</th><th>Sex</th><th>Age</th><th>Height (cm)</th><th>Weight (kg)</th><th>BMI</th><th>Category</th><th></th></tr></thead>
+        <tbody>
+          {% for p in rows %}
+          <tr>
+            <td>{{ p.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.sex }}</td>
+            <td>{{ '%.1f'|format(p.age) }}</td>
+            <td>{{ '%.1f'|format(p.height_cm) }}</td>
+            <td>{{ '%.1f'|format(p.weight_kg) }}</td>
+            <td>{{ '%.2f'|format(p.bmi) }}</td>
+            <td>{{ p.category }}</td>
+            <td class="text-end">
+              <form method="post" action="{{ url_for('delete', pid=p.id) }}" onsubmit="return confirm('Delete this entry?')">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="9" class="text-muted">No entries found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
