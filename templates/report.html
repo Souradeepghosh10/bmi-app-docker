@@ -43,17 +43,53 @@
 </div>
 
 <script>
+const chartSexLabels = {{ chart_sex_labels_json|safe }};
+const chartSexValues = {{ chart_sex_values_json|safe }};
+const chartBandLabels = {{ chart_band_labels_json|safe }};
+const chartBandValues = {{ chart_band_values_json|safe }};
+const chartCatLabels = {{ chart_cat_labels_json|safe }};
+const chartCatValues = {{ chart_cat_values_json|safe }};
+
 new Chart(document.getElementById('bySex'), {
   type: 'bar',
-  data: { labels: {{ chart_sex_labels|tojson }}, datasets: [{ label: 'BMI', data: {{ chart_sex_values|tojson }} }] }
+  data: {
+    labels: chartSexLabels,
+    datasets: [{
+      label: 'BMI',
+      data: chartSexValues,
+      backgroundColor: 'rgba(54, 162, 235, 0.5)'
+    }]
+  }
 });
+
 new Chart(document.getElementById('byBand'), {
   type: 'bar',
-  data: { labels: {{ chart_band_labels|tojson }}, datasets: [{ label: 'BMI', data: {{ chart_band_values|tojson }} }] }
+  data: {
+    labels: chartBandLabels,
+    datasets: [{
+      label: 'BMI',
+      data: chartBandValues,
+      backgroundColor: 'rgba(255, 99, 132, 0.5)'
+    }]
+  }
 });
+
 new Chart(document.getElementById('byCat'), {
   type: 'pie',
-  data: { labels: {{ chart_cat_labels|tojson }}, datasets: [{ data: {{ chart_cat_values|tojson }} }] }
+  data: {
+    labels: chartCatLabels,
+    datasets: [{
+      data: chartCatValues,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'
+      ]
+    }]
+  }
 });
 </script>
 {% else %}
